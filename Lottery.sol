@@ -22,7 +22,7 @@ contract Lottery {
         return address(this).balance;
     }
 
-    function randomNum() public view returns(uint)
+    function randomNum() private view returns(uint)
     {
         // This project is for practice not for Main net 
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp , participants.length ))); // Create random nuumber to selct the winner candidate
@@ -38,6 +38,7 @@ contract Lottery {
         uint index =  r % participants.length+1;
         winnerCandidate = participants[index];
         winnerCandidate.transfer(getBalance());
-         
+        // Reseting the participants array to zero
+        participants = new address payable[](0); 
     }
 }
