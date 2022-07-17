@@ -22,10 +22,20 @@ contract Lottery {
         return address(this).balance;
     }
 
-    function randomUser() public view returns(uint)
+    function randomNum() public view returns(uint)
     {
         // This project is for practice not for Main net 
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp , participants.length ))); // Create random nuumber to selct the winner candidate
+    }
 
+    // To Slect the random Participant from the Array 
+
+    function selectWinner() public view returns (address){
+        require(msg.sender == manager , "You are not the Manager!");
+        require(participants.length >= 3); // Only 3 Candidate can participate 
+        uint r = randomNum();
+        address payable winnerCandidate ;
+        uint index =  r % participants.length+1;
+        return winnerCandidate = participants[index];
     }
 }
